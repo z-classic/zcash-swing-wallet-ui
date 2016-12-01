@@ -213,6 +213,18 @@ public class OSUtil
 		{
 			return f.getCanonicalFile();
 		}
+		
+		// Try with system property zcash.location.dir - may be specified by caller
+		String ZCashLocationDir = System.getProperty("zcash.location.dir");
+		if ((ZCashLocationDir != null) && (ZCashLocationDir.trim().length() > 0))
+		{
+			f = new File(ZCashLocationDir + File.separator + command);
+			if (f.exists() && f.isFile())
+			{
+				return f.getCanonicalFile();
+			}
+		}
+			
 
 		// TODO: Try to find it with which/PATH
 		
