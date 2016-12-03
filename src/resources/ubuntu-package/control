@@ -5,4 +5,4 @@ Priority: low
 Architecture: all
 Description: ZCash Desktop GUI Wallet 
 Maintainer: ivan@vaklinov.com
-Depends: default-jdk | zcash
+Depends: default-jdk, zcash
