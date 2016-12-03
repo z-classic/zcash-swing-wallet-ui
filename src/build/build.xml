@@ -85,7 +85,7 @@
 	    	 verbose="true">
 	    	
 	      <data src="${jar.dir}/${ant.project.name}.jar" type="file">
-	        <mapper type="perm" filemode="755" prefix="/usr/share/zcash-gui-wallet"/>
+	        <mapper type="perm" filemode="755" prefix="/usr/lib/zcash-gui-wallet"/>
 	      </data>
 	      <data src="${src.dir}/resources/ubuntu-package/zcash-swing-wallet-ui" type="file">
 	        <mapper type="perm" filemode="755" prefix="/usr/bin"/>
