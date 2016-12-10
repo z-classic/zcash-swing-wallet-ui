@@ -81,6 +81,7 @@ public class ZCashUI
     private JMenuItem menuItemExportKeys;
     private JMenuItem menuItemImportKeys;
     private JMenuItem menuItemShowPrivateKey;
+    private JMenuItem menuItemImportOnePrivateKey;
 
     private DashboardPanel dashboard;
     private AddressesPanel addresses;
@@ -89,7 +90,7 @@ public class ZCashUI
     public ZCashUI()
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash Swing Wallet UI 0.45 (beta)");
+        super("ZCash Swing Wallet UI 0.46 (beta)");
         ClassLoader cl = this.getClass().getClassLoader();
 
         this.setIconImage(new ImageIcon(cl.getResource("images/Z-yellow.orange-logo.png")).getImage());
@@ -145,6 +146,8 @@ public class ZCashUI
         menuItemImportKeys.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, accelaratorKeyMask));
         wallet.add(menuItemShowPrivateKey = new JMenuItem("Show private key...", KeyEvent.VK_P));
         menuItemShowPrivateKey.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, accelaratorKeyMask));
+        wallet.add(menuItemImportOnePrivateKey = new JMenuItem("Import one private key...", KeyEvent.VK_N));
+        menuItemImportOnePrivateKey.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, accelaratorKeyMask));
         
         mb.add(wallet);
 
@@ -238,6 +241,17 @@ public class ZCashUI
                 }
             }
        );
+       
+       menuItemImportOnePrivateKey.addActionListener(   
+           new ActionListener()
+           {
+               @Override
+               public void actionPerformed(ActionEvent e)
+               {
+                   ZCashUI.this.walletOps.importSinglePrivateKey();
+               }
+           }
+      );
 
         // Close operation
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
