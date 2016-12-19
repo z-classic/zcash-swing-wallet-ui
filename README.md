@@ -17,7 +17,9 @@ on the same topic.
 
 **For security reasons it is recommended to always build the GUI wallet program from GitHub**
 **[source](https://github.com/vaklinov/zcash-swing-wallet-ui/archive/master.zip).**
-The details of how to build it are described below (easy to follow).
+The details of how to build it are described below (easy to follow). 
+Project [snapshot tags](https://github.com/vaklinov/zcash-swing-wallet-ui/tags) named x.xx-SNAPSHOT have been
+signed with the following [public key](https://github.com/vaklinov/zcash-swing-wallet-ui/blob/master/docs/IV_Github_GPG_public_key.txt).
 Users who are less experienced with working on a command line, may instead use this 
 quite-user-friendly [installation guide](https://www.cryptocompare.com/wallets/guides/how-to-install-the-zcash-gui-wallet) 
 and [usage guide](https://www.cryptocompare.com/wallets/guides/how-to-use-the-zcash-gui-wallet).
