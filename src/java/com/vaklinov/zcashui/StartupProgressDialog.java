@@ -24,7 +24,6 @@ import javax.swing.SwingUtilities;
 
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
-import com.sun.prism.paint.Stop;
 import com.vaklinov.zcashui.OSUtil.OS_TYPE;
 import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
 
@@ -142,13 +141,14 @@ public class StartupProgressDialog extends JFrame {
         if (daemonProcess != null) // Shutdown only if we started it
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                System.out.println("Stopping zcashd because we started it - now it is alive: " + daemonProcess.isAlive());
+                System.out.println("Stopping zcashd because we started it - now it is alive: " + 
+                		           StartupProgressDialog.this.isAlive(daemonProcess));
                 try 
                 {
                     clientCaller.stopDaemon();
 	                long start = System.currentTimeMillis();
 	                
-	                while (!daemonProcess.waitFor(3000, TimeUnit.MILLISECONDS))
+	                while (!StartupProgressDialog.this.waitFor(daemonProcess, 3000))
 	                {
 	                	long end = System.currentTimeMillis();
 	                	System.out.println("Waiting for " + ((end - start) / 1000) + " seconds for zcashd to exit...");
@@ -165,7 +165,7 @@ public class StartupProgressDialog extends JFrame {
 	                	}
 	                }
 	            
-	                if (daemonProcess.isAlive()) {
+	                if (StartupProgressDialog.this.isAlive(daemonProcess)) {
 	                    	System.out.println("zcashd is still alive although we tried to stop it. " +
 	                                           "Hopefully it will stop later!");
 	                        //System.out.println("zcashd is still alive, killing forcefully");
@@ -210,5 +210,58 @@ public class StartupProgressDialog extends JFrame {
         File firstRun = new File(bundlePath,"first-run.sh");
         Process firstRunProcess = Runtime.getRuntime().exec(firstRun.getCanonicalPath());
         firstRunProcess.waitFor();
+    }
+    
+    
+    // Custom code - to allow JDK7 compilation.
+    public boolean isAlive(Process p) 
+    {
+    	if (p == null)
+    	{
+    		return false;
+    	}
+    	
+        try 
+        {
+            int val = p.exitValue();
+            
+            return false;
+        } catch (IllegalThreadStateException itse) 
+        {
+            return true;
+        }
+    }
+    
+    
+    // Custom code - to allow JDK7 compilation.
+    public boolean waitFor(Process p, long interval)
+    {
+		synchronized (this) 
+		{
+			long startWait = System.currentTimeMillis();
+			long endWait = startWait;
+			do
+			{
+				boolean ended = !isAlive(p);
+				
+				if (ended)
+				{
+					return true; // End here
+				}
+				
+				try
+				{
+					this.wait(100);
+				} catch (InterruptedException ie)
+				{
+					// One of the rare cases where we do nothing
+					ie.printStackTrace();
+				}
+				
+				endWait = System.currentTimeMillis();
+			} while ((endWait - startWait) <= interval);
+		}
+		
+		return false;
     }
 }
