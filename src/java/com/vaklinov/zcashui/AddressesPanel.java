@@ -59,7 +59,7 @@ import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
  * @author Ivan Vaklinov <ivan@vaklinov.com>
  */
 public class AddressesPanel
-	extends JPanel
+	extends WalletTabPanel
 {
 	private ZCashClientCaller clientCaller;
 	private StatusUpdateErrorReporter errorReporter;
@@ -138,6 +138,7 @@ public class AddressesPanel
 				}
 			}, 
 			this.errorReporter, 25000);
+		this.threads.add(this.balanceGatheringThread);
 		
 		ActionListener alBalances = new ActionListener() 
 		{
@@ -156,6 +157,7 @@ public class AddressesPanel
 		};
 		Timer t = new Timer(5000, alBalances);
 		t.start();
+		this.timers.add(t);
 		
 		// Button actions
 		refreshButton.addActionListener(new ActionListener() 

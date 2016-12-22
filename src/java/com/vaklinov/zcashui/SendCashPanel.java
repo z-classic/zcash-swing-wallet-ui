@@ -73,7 +73,7 @@ import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
  * @author Ivan Vaklinov <ivan@vaklinov.com>
  */
 public class SendCashPanel
-	extends JPanel
+	extends WalletTabPanel
 {
 	private ZCashClientCaller clientCaller;
 	private StatusUpdateErrorReporter errorReporter;
@@ -96,10 +96,6 @@ public class SendCashPanel
 	private String       operationStatusID           = null;
 	private int          operationStatusCounter      = 0;
 	
-	// Lists of threads and timers that may be stopped if necessary
-	private List<Timer> timers                   = null;
-	private List<DataGatheringThread<?>> threads = null;	
-
 
 	public SendCashPanel(ZCashClientCaller clientCaller,  StatusUpdateErrorReporter errorReporter)
 		throws IOException, InterruptedException, WalletCallException
@@ -341,20 +337,6 @@ public class SendCashPanel
             }
         });
 		
-	}
-	
-	
-	public void stopThreadsAndTimers()
-	{
-		for (Timer t : this.timers)
-		{
-			t.stop();
-		}
-		
-		for (DataGatheringThread<?> t : this.threads)
-		{
-			t.setSuspended(true);
-		}
 	}
 	
 	

@@ -30,6 +30,7 @@ package com.vaklinov.zcashui;
 
 
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -56,7 +57,10 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.vaklinov.zcashui.ZCashClientCaller.NetworkAndBlockchainInfo;
 import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
+import com.vaklinov.zcashui.ZCashInstallationObserver.DAEMON_STATUS;
+import com.vaklinov.zcashui.ZCashInstallationObserver.DaemonInfo;
 import com.vaklinov.zcashui.ZCashInstallationObserver.InstallationDetectionException;
 
 
@@ -87,10 +91,16 @@ public class ZCashUI
     private AddressesPanel addresses;
     private SendCashPanel  sendPanel;
 
-    public ZCashUI()
+    public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash Swing Wallet UI 0.46 (beta)");
+        super("ZCash Swing Wallet UI 0.47 (beta)");
+        
+        if (progressDialog != null)
+        {
+        	progressDialog.setProgressText("Starting GUI wallet...");
+        }
+        
         ClassLoader cl = this.getClass().getClassLoader();
 
         this.setIconImage(new ImageIcon(cl.getResource("images/Z-yellow.orange-logo.png")).getImage());
@@ -127,8 +137,8 @@ public class ZCashUI
         JMenu file = new JMenu("Main");
         file.setMnemonic(KeyEvent.VK_M);
         int accelaratorKeyMask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask();
-        file.add(menuItemAbout = new JMenuItem("About...", KeyEvent.VK_A));
-        menuItemAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, accelaratorKeyMask));
+        file.add(menuItemAbout = new JMenuItem("About...", KeyEvent.VK_T));
+        menuItemAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, accelaratorKeyMask));
         file.addSeparator();
         file.add(menuItemExit = new JMenuItem("Quit", KeyEvent.VK_Q));
         menuItemExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, accelaratorKeyMask));
@@ -304,14 +314,33 @@ public class ZCashUI
                     "Disclaimer", JOptionPane.INFORMATION_MESSAGE);
             }
         });
+        
+        // Finally dispose of the progress dialog
+        if (progressDialog != null)
+        {
+        	progressDialog.doDispose();
+        }
     }
 
     public void exitProgram()
     {
         System.out.println("Exiting ...");
 
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        
         this.dashboard.stopThreadsAndTimers();
+        this.addresses.stopThreadsAndTimers();
+        this.sendPanel.stopThreadsAndTimers();
 
+//        Integer blockchainProgress = this.dashboard.getBlockchainPercentage();
+//        
+//        if ((blockchainProgress != null) && (blockchainProgress >= 100))
+//        {
+//	        this.dashboard.waitForEndOfThreads(3000);
+//	        this.addresses.waitForEndOfThreads(3000);
+//	        this.sendPanel.waitForEndOfThreads(3000);
+//        }
+        
         ZCashUI.this.setVisible(false);
         ZCashUI.this.dispose();
 
@@ -339,9 +368,48 @@ public class ZCashUI
                     break;
                 }
             }
-
             /////////////////////////////////////////////////////
-            ZCashUI ui = new ZCashUI();
+            
+            // If zcashd is currently not running, do a startup of the daemon as a child process
+            // It may be started but not ready - then also show dialog
+            ZCashInstallationObserver initialInstallationObserver = 
+            	new ZCashInstallationObserver(OSUtil.getProgramDirectory());
+            DaemonInfo zcashdInfo = initialInstallationObserver.getDaemonInfo();
+            initialInstallationObserver = null;
+            
+            ZCashClientCaller initialClientCaller = new ZCashClientCaller(OSUtil.getProgramDirectory());
+            boolean daemonStartInProgress = false;
+            try
+            {
+            	if (zcashdInfo.status == DAEMON_STATUS.RUNNING)
+            	{
+            		NetworkAndBlockchainInfo info = initialClientCaller.getNetworkAndBlockchainInfo();
+            		// If more than 20 minutes behind in the blockchain - startup in progress
+            		if ((System.currentTimeMillis() - info.lastBlockDate.getTime()) > (20 * 60 * 1000))
+            		{
+            			daemonStartInProgress = true;
+            		}
+            	}
+            } catch (WalletCallException wce)
+            {
+                if (wce.getMessage().indexOf("{\"code\":-28") != -1) // Started but not ready
+                {
+                	daemonStartInProgress = true;
+                }
+            }
+            
+            StartupProgressDialog startupBar = null;
+            if ((zcashdInfo.status != DAEMON_STATUS.RUNNING) || (daemonStartInProgress))
+            {
+            	System.out.println("zcashd is not runing at the moment or has not started 100%...");
+	            startupBar = new StartupProgressDialog(initialClientCaller);
+	            startupBar.setVisible(true);
+	            startupBar.waitForStartup();
+            }
+            initialClientCaller = null;
+            
+            // Main GUI is created here
+            ZCashUI ui = new ZCashUI(startupBar);
             ui.setVisible(true);
 
         } catch (InstallationDetectionException ide)

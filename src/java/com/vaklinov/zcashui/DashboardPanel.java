@@ -66,7 +66,7 @@ import com.vaklinov.zcashui.ZCashInstallationObserver.DaemonInfo;
  * @author Ivan Vaklinov <ivan@vaklinov.com>
  */
 public class DashboardPanel
-	extends JPanel
+	extends WalletTabPanel
 {
 	private JFrame parentFrame;
 	private ZCashInstallationObserver installationObserver;
@@ -76,7 +76,8 @@ public class DashboardPanel
 	private JLabel networkAndBlockchainLabel = null;
 	private DataGatheringThread<NetworkAndBlockchainInfo> netInfoGatheringThread = null;
 
-	private Boolean walletIsEncrypted  = null;
+	private Boolean walletIsEncrypted   = null;
+	private Integer blockchainPercentage = null;
 	
 	private String OSInfo              = null;
 	private JLabel daemonStatusLabel   = null;
@@ -90,10 +91,6 @@ public class DashboardPanel
 	private String[][] lastTransactionsData = null;
 	private DataGatheringThread<String[][]> transactionGatheringThread = null;
 	
-	// Lists of threads and timers that may be stopped if necessary
-	private List<Timer> timers                   = null;
-	private List<DataGatheringThread<?>> threads = null;	
-
 
 	public DashboardPanel(JFrame parentFrame,
 			              ZCashInstallationObserver installationObserver,
@@ -316,19 +313,12 @@ public class DashboardPanel
 		netAndBlockchainTimer.start();
 		this.timers.add(netAndBlockchainTimer);
 	}
-
 	
-	public void stopThreadsAndTimers()
+	
+	// May be null!
+	public Integer getBlockchainPercentage()
 	{
-		for (Timer t : this.timers)
-		{
-			t.stop();
-		}
-		
-		for (DataGatheringThread<?> t : this.threads)
-		{
-			t.setSuspended(true);
-		}
+		return this.blockchainPercentage;
 	}
 	
 
@@ -421,6 +411,9 @@ public class DashboardPanel
 			DecimalFormat df = new DecimalFormat("##0.##");
 			percentage = df.format(dPercentage);
 		}
+		
+		// Also set a member that may be queried
+		this.blockchainPercentage = new Integer(new Double(percentage).intValue());
 		
 		// Just in case early on the call returns some junk date
 		if (info.lastBlockDate.before(startDate))
