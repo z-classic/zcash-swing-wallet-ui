@@ -109,7 +109,7 @@ At the present time this project is non-commercial in nature and developed by vo
 Wallet useful, please consider making a donation for its further development. Your contribution matters! Donations 
 are accepted at ZCash T address:
 ```
-t1VAggo7RusLVBzHSeYbGkxDQQhLZyigxty
+t1UMGjLDipdfuCdNwxUZTV4FhM34FJXgM8r
 ```
 
 ### License

@@ -86,15 +86,18 @@ public class ZCashUI
     private JMenuItem menuItemImportKeys;
     private JMenuItem menuItemShowPrivateKey;
     private JMenuItem menuItemImportOnePrivateKey;
+    private JMenuItem menuItemAddressBook;
 
     private DashboardPanel dashboard;
     private AddressesPanel addresses;
     private SendCashPanel  sendPanel;
+    
+    JTabbedPane tabs;
 
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash Swing Wallet UI 0.48 (beta)");
+        super("ZCash Swing Wallet UI 0.49 (beta)");
         
         if (progressDialog != null)
         {
@@ -112,7 +115,7 @@ public class ZCashUI
         clientCaller = new ZCashClientCaller(OSUtil.getProgramDirectory());
 
         // Build content
-        JTabbedPane tabs = new JTabbedPane();
+        tabs = new JTabbedPane();
         Font oldTabFont = tabs.getFont();
         Font newTabFont  = new Font(oldTabFont.getName(), Font.BOLD | Font.ITALIC, oldTabFont.getSize() * 57 / 50);
         tabs.setFont(newTabFont);
@@ -157,9 +160,14 @@ public class ZCashUI
         wallet.add(menuItemShowPrivateKey = new JMenuItem("Show private key...", KeyEvent.VK_P));
         menuItemShowPrivateKey.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, accelaratorKeyMask));
         wallet.add(menuItemImportOnePrivateKey = new JMenuItem("Import one private key...", KeyEvent.VK_N));
-        menuItemImportOnePrivateKey.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, accelaratorKeyMask));
-        
+        menuItemImportOnePrivateKey.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, accelaratorKeyMask));        
         mb.add(wallet);
+        
+        JMenu extras = new JMenu("Extras");
+        extras.setMnemonic(KeyEvent.VK_R);
+        extras.add(menuItemAddressBook = new JMenuItem("Address book...", KeyEvent.VK_D));
+        menuItemAddressBook.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, accelaratorKeyMask));        
+        mb.add(extras);
 
         // TODO: Temporarily disable encryption until further notice - Oct 24 2016
         menuItemEncrypt.setEnabled(false);
@@ -261,7 +269,19 @@ public class ZCashUI
                    ZCashUI.this.walletOps.importSinglePrivateKey();
                }
            }
-      );
+       );
+       
+       menuItemAddressBook.addActionListener(   
+           new ActionListener()
+           {
+               @Override
+               public void actionPerformed(ActionEvent e)
+               {
+            	   ZCashUI.this.walletOps.showAddressBook();
+               }
+           }
+        );
+
 
         // Close operation
         this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

@@ -1,4 +1,5 @@
 // Code was originally written by developer - https://github.com/zlatinb
+// Taken from repository https://github.com/zlatinb/zcash-swing-wallet-ui under an MIT license
 package com.vaklinov.zcashui;
 
 import java.awt.BorderLayout;
