@@ -1,13 +1,13 @@
-# [ZCash](https://z.cash/) Desktop GUI Wallet
+# [ZCash®](https://z.cash/) Desktop GUI Wallet
 
-## Graphical user interface wrapper for the [ZCash](https://z.cash/) command line tools
+## Graphical user interface wrapper for the [ZCash®](https://z.cash/) command line tools
 
 This program provides a Graphical User Interface (GUI) for the ZCash client tools that acts as a wrapper and 
 presents the information in a user-friendly manner.
 
 ![Screenshot](https://github.com/vaklinov/zcash-swing-wallet-ui/raw/master/docs/ZCashWallet.png "Main Window")
 
-#### Experimental: [ZCash Desktop GUI Wallet for MAC OS X](https://github.com/vaklinov/zcash-swing-wallet-ui/blob/master/docs/Readme-Mac.md) is available
+#### Experimental: [ZCash® Desktop GUI Wallet for MAC OS X](https://github.com/vaklinov/zcash-swing-wallet-ui/blob/master/docs/Readme-Mac.md) is available
 
 ## Building, installing and running the Wallet GUI
 
@@ -117,6 +117,9 @@ This program is distributed under an [MIT License](https://github.com/vaklinov/z
 
 ### Disclaimer
 This program is not officially endorsed by or associated with the ZCash project and the ZCash company.
+[ZCash®](https://trademarks.justia.com/871/93/zcash-87193130.html) and the 
+[ZCash® logo](https://trademarks.justia.com/868/84/z-86884549.html) are trademarks of the
+[Zerocoin Electric Coin Company](https://trademarks.justia.com/owners/zerocoin-electric-coin-company-3232749/).
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

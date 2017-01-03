@@ -54,8 +54,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import com.vaklinov.zcashui.ZCashClientCaller.NetworkAndBlockchainInfo;
 import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
@@ -97,7 +95,7 @@ public class ZCashUI
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash Swing Wallet UI 0.49 (beta)");
+        super("ZCash\u00AE Swing Wallet UI 0.50 (beta)");
         
         if (progressDialog != null)
         {
@@ -106,7 +104,7 @@ public class ZCashUI
         
         ClassLoader cl = this.getClass().getClassLoader();
 
-        this.setIconImage(new ImageIcon(cl.getResource("images/Z-yellow.orange-logo.png")).getImage());
+        this.setIconImage(new ImageIcon(cl.getResource("images/zcash-logo-large.png")).getImage());
 
         Container contentPane = this.getContentPane();
 
@@ -321,8 +319,10 @@ public class ZCashUI
                     ZCashUI.this.getRootPane().getParent(),
                     "The ZCash GUI Wallet is currently considered experimental. Use of this software\n" +
                     "comes at your own risk! Be sure to read the list of known issues and limitations\n" +
-                    "at this page: \n" +
-                    "https://github.com/vaklinov/zcash-swing-wallet-ui#known-issues-and-limitations\n\n" +
+                    "at this page: https://github.com/vaklinov/zcash-swing-wallet-ui\n\n" +
+                    "This program is not officially endorsed by or associated with the ZCash project\n" +
+                    "and the ZCash company. ZCash and the ZCash logo are trademarks of the\n" +
+                    "Zerocoin Electric Coin Company.\n\n"+ 
                     "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n" +
                     "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n" +
                     "FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n" +

@@ -379,7 +379,7 @@ public class ZCashClientCaller
 
 
 	// Returns OPID
-	public synchronized String sendCash(String from, String to, String amount, String memo)
+	public synchronized String sendCash(String from, String to, String amount, String memo, String transactionFee)
 		throws WalletCallException, IOException, InterruptedException
 	{
 		StringBuilder hexMemo = new StringBuilder();
@@ -419,6 +419,17 @@ public class ZCashClientCaller
 		}
 
 		DecimalFormatSymbols decSymbols = new DecimalFormatSymbols(Locale.ROOT);
+		
+		// Properly format teh transaction fee as a number
+		if ((transactionFee == null) || (transactionFee.trim().length() <= 0))
+		{
+			transactionFee = "0.0001"; // Default value
+		} else
+		{
+			transactionFee = new DecimalFormat(
+				"########0.00######", decSymbols).format(Double.valueOf(transactionFee));
+		}
+		
 		String[] sendCashParameters = new String[]
 	    {
 		    this.zcashcli.getCanonicalPath(), "z_sendmany", from,
@@ -426,7 +437,11 @@ public class ZCashClientCaller
 		    // TODO: find a better way to format the amount
 		    toMany.toString().replace(
 		    	amountPattern,
-		    	"\"amount\":" + new DecimalFormat("########0.00######", decSymbols).format(Double.valueOf(amount)))
+		    	"\"amount\":" + new DecimalFormat("########0.00######", decSymbols).format(Double.valueOf(amount))),
+		    // Default min confirmations for the input transactions is 1
+		    "1",
+		    // transaction fee
+		    transactionFee
 		};
 
 	    CommandExecutor caller = new CommandExecutor(sendCashParameters);
@@ -439,7 +454,8 @@ public class ZCashClientCaller
 
 		System.out.println("Sending cash with the following command: " +
                 sendCashParameters[0] + " " + sendCashParameters[1] + " " +
-                sendCashParameters[2] + " " + sendCashParameters[3] + "." +
+                sendCashParameters[2] + " " + sendCashParameters[3] + " " +
+                sendCashParameters[4] + " " + sendCashParameters[5] + "." +
                 " Got result: [" + strResponse + "]");
 
 		return strResponse.trim();
