@@ -338,12 +338,27 @@ public class DashboardPanel
 		{
 			daemonStatus = "<span style=\"color:red;font-weight:bold\">NOT RUNNING</span>";
 		}
+		
 		String runtimeInfo = "";
+		
+		// If the virtual size/CPU are 0 - do not show them
+		String virtual = "";
+		if (daemonInfo.virtualSizeMB > 0)
+		{
+			virtual = ", Virtual: " + daemonInfo.virtualSizeMB + " MB";
+		}
+		
+		String cpuPercentage = "";
+		if (daemonInfo.cpuPercentage > 0)
+		{
+			cpuPercentage = ", CPU: " + daemonInfo.cpuPercentage + "%";
+		}
+		
 		if (daemonInfo.status == DAEMON_STATUS.RUNNING)
 		{
 			runtimeInfo = "<span style=\"font-size:8px\">" +
-					      "Resident: " + daemonInfo.residentSizeMB + " MB, Virtual: " + daemonInfo.virtualSizeMB +
-					      " MB, CPU: " + daemonInfo.cpuPercentage + "%" + "</span>";
+					      "Resident: " + daemonInfo.residentSizeMB + " MB" + virtual +
+					       cpuPercentage + "</span>";
 		}
 
 		// TODO: what if ZCash directory is non-default...

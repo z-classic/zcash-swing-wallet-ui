@@ -1,13 +1,13 @@
-# [ZCash®](https://z.cash/) Desktop GUI Wallet
+# [ZCash](https://z.cash/)[®](#disclaimer) Desktop GUI Wallet
 
-## Graphical user interface wrapper for the [ZCash®](https://z.cash/) command line tools
+## Graphical user interface wrapper for the [ZCash](https://z.cash/)[®](#disclaimer) command line tools
 
 This program provides a Graphical User Interface (GUI) for the ZCash client tools that acts as a wrapper and 
 presents the information in a user-friendly manner.
 
 ![Screenshot](https://github.com/vaklinov/zcash-swing-wallet-ui/raw/master/docs/ZCashWallet.png "Main Window")
 
-#### Experimental: [ZCash® Desktop GUI Wallet for MAC OS X](https://github.com/vaklinov/zcash-swing-wallet-ui/blob/master/docs/Readme-Mac.md) is available
+#### Experimental: [ZCash Desktop GUI Wallet for MAC OS X](https://github.com/vaklinov/zcash-swing-wallet-ui/blob/master/docs/Readme-Mac.md) is available
 
 ## Building, installing and running the Wallet GUI
 
@@ -140,6 +140,6 @@ wallet encryption has been temporarily disabled in the ZCash Desktop GUI Wallet.
 The latter needs to be disabled. 
 1. Limitation: The list of transactions does not show all outgoing ones (specifically outgoing Z address 
 transactions). A corresponding issue [#1438](https://github.com/zcash/zcash/issues/1438) has been opened 
-for the ZCash developers - soon to be fixed. A fix for the GUI wallet may be expected within 1-2 weeks. 
-1. Limitation: The CPU percentage shown to be taken by zcashd is the average for the entire lifetime of the process. 
-This is not very useful. This will be improved in future versions.
+for the ZCash developers. 
+1. Limitation: The CPU percentage shown to be taken by zcashd on Linux is the average for the entire lifetime 
+of the process. This is not very useful. This will be improved in future versions.

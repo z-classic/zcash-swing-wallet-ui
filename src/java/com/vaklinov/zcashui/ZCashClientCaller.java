@@ -100,11 +100,11 @@ public class ZCashClientCaller
 	{
 		// Detect daemon and client tools installation
 		File dir = new File(installDir);
-	    zcashcli = new File(dir, "zcash-cli");
+	    zcashcli = new File(dir, OSUtil.getZCashCli());
 
 		if (!zcashcli.exists())
 		{
-			zcashcli = OSUtil.findZCashCommand("zcash-cli");
+			zcashcli = OSUtil.findZCashCommand(OSUtil.getZCashCli());
 		}
 
 		if ((zcashcli == null) || (!zcashcli.exists()))
@@ -114,10 +114,10 @@ public class ZCashClientCaller
 				"the command line utilities zcashd and zcash-cli. zcash-cli is missing!");
 		}
 		
-		zcashd = new File(dir, "zcashd");
+		zcashd = new File(dir, OSUtil.getZCashd());
 		if (!zcashd.exists())
 		{
-		    zcashd = OSUtil.findZCashCommand("zcashd");
+		    zcashd = OSUtil.findZCashCommand(OSUtil.getZCashd());
 		}
 		
 		if (zcashd == null || (!zcashd.exists()))

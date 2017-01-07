@@ -95,7 +95,7 @@ public class ZCashUI
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash\u00AE Swing Wallet UI 0.50 (beta)");
+        super("ZCash\u00AE Swing Wallet UI 0.51 (beta)");
         
         if (progressDialog != null)
         {
@@ -421,7 +421,7 @@ public class ZCashUI
             StartupProgressDialog startupBar = null;
             if ((zcashdInfo.status != DAEMON_STATUS.RUNNING) || (daemonStartInProgress))
             {
-            	System.out.println("zcashd is not runing at the moment or has not started 100%...");
+            	System.out.println("zcashd is not runing at the moment or has not started/synchronized 100%...");
 	            startupBar = new StartupProgressDialog(initialClientCaller);
 	            startupBar.setVisible(true);
 	            startupBar.waitForStartup();
