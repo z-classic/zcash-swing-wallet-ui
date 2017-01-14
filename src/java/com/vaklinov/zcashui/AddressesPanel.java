@@ -385,7 +385,7 @@ public class AddressesPanel
 			addressBalances[i++] = new String[] 
 			{  
 				balanceToShow,
-				isConfirmed ? ("Yes " + confirmed) : ("No " + notConfirmed),
+				isConfirmed ? ("Yes " + confirmed) : ("No  " + notConfirmed),
 				address
 			};
 		}
@@ -401,7 +401,7 @@ public class AddressesPanel
 			addressBalances[i++] = new String[] 
 			{  
 				balanceToShow,
-				isConfirmed ? ("Yes " + confirmed) : ("No " + notConfirmed),
+				isConfirmed ? ("Yes " + confirmed) : ("No  " + notConfirmed),
 				address
 			};
 		}
