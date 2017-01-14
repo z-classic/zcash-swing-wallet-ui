@@ -440,8 +440,9 @@ public class DashboardPanel
 		String connections = " \u26D7";
 		String tickSymbol = " \u2705";
 		OS_TYPE os = OSUtil.getOSType();
-		// Handling special symbols on Mac OS
-		if (os == OS_TYPE.MAC_OS)
+		// Handling special symbols on Mac OS/Windows 
+		// TODO: isolate OS-specific symbol stuff in separate code
+		if ((os == OS_TYPE.MAC_OS) || (os == OS_TYPE.WINDOWS))
 		{
 			connections = " \u21D4";
 			tickSymbol = " \u2606";
@@ -630,6 +631,20 @@ public class DashboardPanel
 				}
 			}
 		});
+		
+		
+		// Confirmation symbols
+		String confirmed    = "\u2690";
+		String notConfirmed = "\u2691";
+		
+		// Windows does not support the flag symbol (Windows 7 by default)
+		// TODO: isolate OS-specific symbol codes in a separate class
+		OS_TYPE os = OSUtil.getOSType();
+		if (os == OS_TYPE.WINDOWS)
+		{
+			confirmed = " \u25B7";
+			notConfirmed = " \u25B6";
+		}
 
 		DecimalFormat df = new DecimalFormat("########0.00######");
 		
@@ -677,7 +692,7 @@ public class DashboardPanel
 			{
 				boolean isConfirmed = !trans[2].trim().equals("0"); 
 				
-				trans[2] = isConfirmed ? "Yes \u2690" : "No  \u2691";
+				trans[2] = isConfirmed ? ("Yes " + confirmed) : ("No " + notConfirmed);
 			} catch (NumberFormatException nfe)
 			{
 				System.out.println("Error occurred while formatting confirmations: " + trans[2] + 

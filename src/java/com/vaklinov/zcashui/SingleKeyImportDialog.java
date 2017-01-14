@@ -157,7 +157,7 @@ public class SingleKeyImportDialog
 			}
 		});
 		
-		this.setSize(740, 180);
+		this.setSize(740, 210);
 		this.validate();
 		this.repaint();
 	}

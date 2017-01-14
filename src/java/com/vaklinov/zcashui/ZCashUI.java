@@ -54,7 +54,9 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.plaf.FontUIResource;
 
+import com.vaklinov.zcashui.OSUtil.OS_TYPE;
 import com.vaklinov.zcashui.ZCashClientCaller.NetworkAndBlockchainInfo;
 import com.vaklinov.zcashui.ZCashClientCaller.WalletCallException;
 import com.vaklinov.zcashui.ZCashInstallationObserver.DAEMON_STATUS;
@@ -95,7 +97,7 @@ public class ZCashUI
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash\u00AE Swing Wallet UI 0.52 (beta)");
+        super("ZCash\u00AE Swing Wallet UI 0.53 (beta)");
         
         if (progressDialog != null)
         {
@@ -372,23 +374,34 @@ public class ZCashUI
     {
         try
         {
+        	OS_TYPE os = OSUtil.getOSType();
+        	
             System.out.println("Starting ZCash Swing Wallet ...");
-            System.out.println("OS: " + System.getProperty("os.name") + " = " + OSUtil.getOSType());
+            System.out.println("OS: " + System.getProperty("os.name") + " = " + os);
             System.out.println("Current directory: " + new File(".").getCanonicalPath());
             System.out.println("Class path: " + System.getProperty("java.class.path"));
             System.out.println("Environment PATH: " + System.getenv("PATH"));
 
-            ////////////////////////////////////////////////////////////
-            for (LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
+            // Look and feel settings - for now a custom OS-look and feel is set for Windows,
+            // Mac OS will follow later.
+            if (os == OS_TYPE.WINDOWS)
             {
-                System.out.println("Available look and feel: " + ui.getName() + " " + ui.getClassName());
-                if (ui.getName().equals("Nimbus"))
-                {
-                    UIManager.setLookAndFeel(ui.getClassName());
-                    break;
-                }
+            	// Custom Windows L&F and font settings
+            	UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            	FontUIResource font = new FontUIResource("Lucida Sans Unicode", Font.PLAIN, 11);
+            	UIManager.put("Table.font", font);
+            } else
+            {            
+	            for (LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
+	            {
+	                System.out.println("Available look and feel: " + ui.getName() + " " + ui.getClassName());
+	                if (ui.getName().equals("Nimbus"))
+	                {
+	                    UIManager.setLookAndFeel(ui.getClassName());
+	                    break;
+	                };
+	            }
             }
-            /////////////////////////////////////////////////////
             
             // If zcashd is currently not running, do a startup of the daemon as a child process
             // It may be started but not ready - then also show dialog
