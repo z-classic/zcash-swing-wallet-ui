@@ -95,7 +95,7 @@ public class ZCashUI
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash\u00AE Swing Wallet UI 0.51 (beta)");
+        super("ZCash\u00AE Swing Wallet UI 0.52 (beta)");
         
         if (progressDialog != null)
         {
@@ -300,7 +300,7 @@ public class ZCashUI
                 try
                 {
                     String userDir = OSUtil.getSettingsDirectory();
-                    File warningFlagFile = new File(userDir + "/initialInfoShown.flag");
+                    File warningFlagFile = new File(userDir + File.separator + "initialInfoShown.flag");
                     if (warningFlagFile.exists())
                     {
                         return;

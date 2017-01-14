@@ -197,7 +197,7 @@ public class OSUtil
 	        dir = new File(userHome, "Library/Application Support/ZCashSwingWalletUI");
 	    } else if (os == OS_TYPE.WINDOWS)
 		{
-			return new File(System.getenv("LOCALAPPDATA") + "\\ZCashSwingWalletUI").getCanonicalPath();
+			dir = new File(System.getenv("LOCALAPPDATA") + "\\ZCashSwingWalletUI");
 		} else
 	    {
 	        dir = new File(userHome.getCanonicalPath() + File.separator + ".ZCashSwingWalletUI");
@@ -205,7 +205,10 @@ public class OSUtil
 	    
 		if (!dir.exists())
 		{
-			dir.mkdirs();
+			if (!dir.mkdirs())
+			{
+				System.out.println("WARNING: Could not create settings directory: " + dir.getCanonicalPath());
+			}
 		}
 
 		return dir.getCanonicalPath();
