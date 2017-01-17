@@ -97,7 +97,7 @@ public class ZCashUI
     public ZCashUI(StartupProgressDialog progressDialog)
         throws IOException, InterruptedException, WalletCallException
     {
-        super("ZCash\u00AE Swing Wallet UI 0.54 (beta)");
+        super("ZClassic\u00AE Swing Wallet UI 0.54 (beta)");
         
         if (progressDialog != null)
         {
@@ -319,9 +319,9 @@ public class ZCashUI
 
                 JOptionPane.showMessageDialog(
                     ZCashUI.this.getRootPane().getParent(),
-                    "The ZCash GUI Wallet is currently considered experimental. Use of this software\n" +
+                    "The ZClassic GUI Wallet is currently considered experimental. Use of this software\n" +
                     "comes at your own risk! Be sure to read the list of known issues and limitations\n" +
-                    "at this page: https://github.com/vaklinov/zcash-swing-wallet-ui\n\n" +
+                    "at this page: https://github.com/z-classic/zclassic-swing-wallet-ui\n\n" +
                     "This program is not officially endorsed by or associated with the ZCash project\n" +
                     "and the ZCash company. ZCash and the ZCash logo are trademarks of the\n" +
                     "Zerocoin Electric Coin Company.\n\n"+ 
@@ -376,7 +376,7 @@ public class ZCashUI
         {
         	OS_TYPE os = OSUtil.getOSType();
         	
-            System.out.println("Starting ZCash Swing Wallet ...");
+            System.out.println("Starting ZClassic Swing Wallet ...");
             System.out.println("OS: " + System.getProperty("os.name") + " = " + os);
             System.out.println("Current directory: " + new File(".").getCanonicalPath());
             System.out.println("Class path: " + System.getProperty("java.class.path"));
@@ -434,7 +434,7 @@ public class ZCashUI
             StartupProgressDialog startupBar = null;
             if ((zcashdInfo.status != DAEMON_STATUS.RUNNING) || (daemonStartInProgress))
             {
-            	System.out.println("zcashd is not runing at the moment or has not started/synchronized 100%...");
+            	System.out.println("zcashd/zclassicd is not runing at the moment or has not started/synchronized 100%...");
 	            startupBar = new StartupProgressDialog(initialClientCaller);
 	            startupBar.setVisible(true);
 	            startupBar.waitForStartup();
@@ -468,7 +468,7 @@ public class ZCashUI
             {
                 JOptionPane.showMessageDialog(
                         null,
-                        "It appears that zcashd has been started but is not ready to accept wallet\n" +
+                        "It appears that zcashd/zclassicd has been started but is not ready to accept wallet\n" +
                         "connections. It is still loading the wallet and blockchain. Please try to \n" +
                         "start the GUI wallet later...",
                         "Wallet communication error",
@@ -477,8 +477,8 @@ public class ZCashUI
             {
                 JOptionPane.showMessageDialog(
                     null,
-                    "There was a problem communicating with the ZCash daemon/wallet. \n" +
-                    "Please ensure that the ZCash server zcashd is started (e.g. via \n" + 
+                    "There was a problem communicating with the ZCash/Zclassic daemon/wallet. \n" +
+                    "Please ensure that the server zcashd or zclassicd is started (e.g. via \n" + 
                     "command  \"zcashd --daemon\"). Error message is: \n" +
                      wce.getMessage() +
                     "See the console output for more detailed error information!",

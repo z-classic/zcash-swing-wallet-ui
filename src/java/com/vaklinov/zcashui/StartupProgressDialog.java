@@ -60,8 +60,7 @@ public class StartupProgressDialog extends JFrame {
         contentPane.add(imageLabel, BorderLayout.NORTH);
 		JLabel zcashWalletLabel = new JLabel(
 			"<html><span style=\"font-style:italic;font-weight:bold;font-size:25px\">" + 
-		    "ZCash<span style=\"font-style:italic;font-weight:bold;font-size:15px;vertical-align:super\">" + 
-		    "\u00AE</span> Wallet</span></html>");
+		    "ZClassic Wallet</span></html>");
 		zcashWalletLabel.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 		contentPane.add(zcashWalletLabel, BorderLayout.CENTER);
         contentPane.add(southPanel, BorderLayout.SOUTH);
@@ -86,7 +85,7 @@ public class StartupProgressDialog extends JFrame {
 //                performOSXBundleLaunch();
 //        }
         
-        System.out.println("checking if zcashd is already running...");
+        System.out.println("checking if zcashd/zclassicd is already running...");
         boolean shouldStartZCashd = false;
         try {
             clientCaller.getDaemonRawRuntimeInfo();
@@ -100,13 +99,13 @@ public class StartupProgressDialog extends JFrame {
         }
         
         if (!shouldStartZCashd) {
-            System.out.println("zcashd already running...");
+            System.out.println("zcashd/zclassicd already running...");
             // What if started by hand but taking long to initialize???
 //            doDispose();
 //            return;
         } else
         {
-        	System.out.println("zcashd will be started...");
+        	System.out.println("zcashd/zclassicd will be started...");
         }
         
         final Process daemonProcess = 
@@ -148,7 +147,7 @@ public class StartupProgressDialog extends JFrame {
         if (daemonProcess != null) // Shutdown only if we started it
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                System.out.println("Stopping zcashd because we started it - now it is alive: " + 
+                System.out.println("Stopping zcashd/zclassicd because we started it - now it is alive: " + 
                 		           StartupProgressDialog.this.isAlive(daemonProcess));
                 try 
                 {
@@ -158,7 +157,7 @@ public class StartupProgressDialog extends JFrame {
 	                while (!StartupProgressDialog.this.waitFor(daemonProcess, 3000))
 	                {
 	                	long end = System.currentTimeMillis();
-	                	System.out.println("Waiting for " + ((end - start) / 1000) + " seconds for zcashd to exit...");
+	                	System.out.println("Waiting for " + ((end - start) / 1000) + " seconds for zcashd/zclassicd to exit...");
 	                	
 	                	if (end - start > 10 * 1000)
 	                	{
@@ -173,14 +172,14 @@ public class StartupProgressDialog extends JFrame {
 	                }
 	            
 	                if (StartupProgressDialog.this.isAlive(daemonProcess)) {
-	                    	System.out.println("zcashd is still alive although we tried to stop it. " +
+	                    	System.out.println("zcashd/zclassicd is still alive although we tried to stop it. " +
 	                                           "Hopefully it will stop later!");
-	                        //System.out.println("zcashd is still alive, killing forcefully");
+	                        //System.out.println("zcashd/zclassicd is still alive, killing forcefully");
 	                        //daemonProcess.destroyForcibly();
 	                    } else
-	                        System.out.println("zcashd shut down successfully");
+	                        System.out.println("zcashd/zclassicd shut down successfully");
                 } catch (Exception bad) {
-                    System.out.println("Couldn't stop zcashd!");
+                    System.out.println("Couldn't stop zcashd/zclassicd!");
                     bad.printStackTrace();
                 }
             }

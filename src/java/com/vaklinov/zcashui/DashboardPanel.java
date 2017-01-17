@@ -122,10 +122,10 @@ public class DashboardPanel
 			this.getClass().getClassLoader().getResource("images/Z-yellow.orange-logo-small.png")));
 		tempPanel.add(logoLabel);
 		//tempPanel.add(new JLabel(" "));
-		JLabel zcLabel = new JLabel("Cash Wallet        ");
+		JLabel zcLabel = new JLabel("classic Wallet        ");
 		zcLabel.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 32));
 		tempPanel.add(zcLabel);
-		tempPanel.setToolTipText("Powered by ZCash\u00AE");
+		tempPanel.setToolTipText("Powered by ZClassic\u00AE");
 		balanceStatusPanel.add(tempPanel, BorderLayout.WEST);
 				
 		JLabel transactionHeadingLabel = new JLabel(
@@ -380,7 +380,7 @@ public class DashboardPanel
 		}
 		
 		String text =
-			"<html><span style=\"font-weight:bold;color:#303030\">zcashd</span> status: " + 
+			"<html><span style=\"font-weight:bold;color:#303030\">zcashd/zclassicd</span> status: " + 
 		    daemonStatus + ",  " + runtimeInfo + " <br/>" +
 			"Wallet: <span style=\"font-weight:bold;color:#303030\">" + walletDAT.getCanonicalPath() + "</span>" + 
 			walletEncryption + " <br/> " +
